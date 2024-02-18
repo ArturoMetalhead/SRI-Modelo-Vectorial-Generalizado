@@ -1,0 +1,1 @@
+# SRI-Modelo-Vectorial-Generalizado
