@@ -15,18 +15,18 @@ vector_repr = []
 dictionary = {}
 vocabulary = []
 
-nlp = spacy.load("es_core_news_sm")
+nlp = spacy.load("en_core_web_sm")
 def tokenization(texts):
     return [[token for token in nlp(doc)] for doc in texts]
 
-tokenization(documents)
+#tokenization(documents)
 
 ##Eliminacion de ruido
 
 def remove_noise(tokenized_docs):
     return [[token for token in doc if token.is_alpha] for doc in tokenized_docs]
 
-remove_noise(tokenization(documents))
+#remove_noise(tokenization(documents))
 
 ##Eliminacion de Stop-Words
 
@@ -36,7 +36,7 @@ def remove_stopwords(tokenized_docs):
         [token for token in doc if token.text not in stopwords] for doc in tokenized_docs
     ]
 
-remove_stopwords(remove_noise(tokenization(documents)))
+#remove_stopwords(remove_noise(tokenization(documents)))
 
 ##Reduccion Morfologica
 
