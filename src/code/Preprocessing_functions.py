@@ -5,19 +5,19 @@ import gensim
 
 ##Cargando el corpus
 
-dataset = ir_datasets.load("" ) #insertar aqui los documentos
-documents = [doc.text for doc in dataset.docs_iter()]
+#dataset = ir_datasets.load("" ) #insertar aqui los documentos
+#documents = [doc.text for doc in dataset.docs_iter()]
 
 ##Tokenizacion
 
-tokenized_docs = []
-vector_repr = []
-dictionary = {}
-vocabulary = []
+#tokenized_docs = []
+#vector_repr = []
+#dictionary = {}
+#vocabulary = []
 
 nlp = spacy.load("en_core_web_sm")
-def tokenization(texts):
-    return [[token for token in nlp(doc)] for doc in texts]
+def tokenization(documents):
+    return [[token for token in nlp(doc)] for doc in documents]
 
 #tokenization(documents)
 
@@ -102,6 +102,6 @@ def pos_tagger(tokenized_docs):
         for doc in tokenized_docs
     ]
 
-pos_tags = pos_tagger(tokenization(documents))
+#pos_tags = pos_tagger(tokenization(documents))
 
 #endregion
