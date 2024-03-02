@@ -47,7 +47,7 @@ def morphological_reduction(tokenized_docs, use_lemmatization=True):
         for doc in tokenized_docs
     ]
 
-morphological_reduction(remove_stopwords(remove_noise(tokenization(documents))), True)
+#morphological_reduction(remove_stopwords(remove_noise(tokenization(documents))), True)
 
 ##Filtrado segun ocurrencia
 
@@ -64,7 +64,7 @@ def filter_tokens_by_occurrence(tokenized_docs, no_below=5, no_above=0.5):
 
     return filtered_tokens
 
-tokenized_docs = filter_tokens_by_occurrence(tokenized_docs)
+#tokenized_docs = filter_tokens_by_occurrence(tokenized_docs)
 
 ##Construccion del vocabulario
 
@@ -72,23 +72,27 @@ def build_vocabulary(dictionary):
     vocabulary = list(dictionary.token2id.keys())
     return vocabulary
 
-vocabulary = build_vocabulary(dictionary)
+#vocabulary = build_vocabulary(dictionary)
 
 #region implemetar
 ##Representacion Vectorial  (Me parece que esta es la parte que uno debe implementar)
 
+# Modificado para usar tfidf por defecto
 def vector_representation(tokenized_docs, dictionary, vector_repr, use_bow=True):
     corpus = [dictionary.doc2bow(doc) for doc in tokenized_docs]
 
-    if use_bow:
+    """if use_bow:
         vector_repr = corpus
     else:
         tfidf = gensim.models.TfidfModel(corpus)
-        vector_repr = [tfidf[doc] for doc in corpus]
+        vector_repr = [tfidf[doc] for doc in corpus] """
+    
+    ttfidf = gensim.models.TfidfModel(corpus)
+    vector_repr = [ttfidf[doc] for doc in corpus]
 
     return vector_repr
 
-vector_repr = vector_representation(tokenized_docs, dictionary, vector_repr)
+#vector_repr = vector_representation(tokenized_docs, dictionary, vector_repr)
 
 ##Etiquetado de las partes del discurso
 
