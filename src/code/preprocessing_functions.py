@@ -52,7 +52,8 @@ def morphological_reduction(tokenized_docs, use_lemmatization=True):
 ##Filtrado segun ocurrencia
 
 def filter_tokens_by_occurrence(tokenized_docs, no_below=5, no_above=0.5):
-    global dictionary
+    #global dictionary
+    dictionary = {}
     dictionary = gensim.corpora.Dictionary(tokenized_docs)
     dictionary.filter_extremes(no_below=no_below, no_above=no_above)
 
@@ -62,7 +63,7 @@ def filter_tokens_by_occurrence(tokenized_docs, no_below=5, no_above=0.5):
         for doc in tokenized_docs
     ]
 
-    return filtered_tokens
+    return filtered_tokens, dictionary
 
 #tokenized_docs = filter_tokens_by_occurrence(tokenized_docs)
 
