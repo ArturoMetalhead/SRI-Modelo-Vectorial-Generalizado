@@ -5,7 +5,7 @@ import gensim
 
 ##Cargando el corpus
 
-dataset = ir_datasets.load("")#insertar aqui los documentos
+dataset = ir_datasets.load("" ) #insertar aqui los documentos
 documents = [doc.text for doc in dataset.docs_iter()]
 
 ##Tokenizacion
@@ -15,7 +15,7 @@ vector_repr = []
 dictionary = {}
 vocabulary = []
 
-nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("es_core_news_sm")
 def tokenization(texts):
     return [[token for token in nlp(doc)] for doc in texts]
 
