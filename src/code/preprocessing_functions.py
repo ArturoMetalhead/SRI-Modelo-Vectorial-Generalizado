@@ -79,7 +79,7 @@ def build_vocabulary(dictionary):
 ##Representacion Vectorial  (Me parece que esta es la parte que uno debe implementar)
 
 # Modificado para usar tfidf por defecto
-def vector_representation(tokenized_docs, dictionary, vector_repr, use_bow=True):
+def vector_representation(tokenized_docs, dictionary, use_bow=True):
     corpus = [dictionary.doc2bow(doc) for doc in tokenized_docs]
 
     """if use_bow:

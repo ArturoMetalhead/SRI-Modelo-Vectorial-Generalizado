@@ -7,11 +7,11 @@ from preprocessing_functions import *
 
 #Corpus
 # TODO: cargar documentos
-dataset = ir_datasets.load("" ) 
+#dataset = ir_datasets.load("" ) 
 
 # TODO: Cargar documentos a la hora de iniciar, pues se debe pasar a preprocess ya el corpus deseado.
 
-documents = [doc.text for doc in dataset.docs_iter()]
+#documents = [doc.text for doc in dataset.docs_iter()]
 
 def preprocess(documents):
     #Tokenizar documentos
