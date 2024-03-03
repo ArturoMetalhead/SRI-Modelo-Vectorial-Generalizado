@@ -15,8 +15,9 @@ import gensim
 #dictionary = {}
 #vocabulary = []
 
-nlp = spacy.load("en_core_web_sm")
+#nlp = spacy.load("en_core_web_sm")
 def tokenization(documents):
+    nlp = spacy.load("en_core_web_sm")
     return [[token for token in nlp(doc)] for doc in documents]
 
 #tokenization(documents)
@@ -51,7 +52,7 @@ def morphological_reduction(tokenized_docs, use_lemmatization=True):
 
 ##Filtrado segun ocurrencia
 
-def filter_tokens_by_occurrence(tokenized_docs, no_below=5, no_above=0.5):
+def filter_tokens_by_occurrence(tokenized_docs, no_below=1, no_above=20):
     #global dictionary
     dictionary = {}
     dictionary = gensim.corpora.Dictionary(tokenized_docs)

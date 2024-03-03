@@ -14,6 +14,7 @@ from preprocessing_functions import *
 #documents = [doc.text for doc in dataset.docs_iter()]
 
 def preprocess(documents):
+
     #Tokenizar documentos
     tokenized_docs = tokenization(documents) 
 
@@ -40,7 +41,9 @@ def preprocess(documents):
     # TODO: Verificar para que es el tagger y determinar si se le pasa el primer tokenized_docs o filtered_docs
     tagged_docs = pos_tagger(tokenized_docs)
 
-    # TODO: Guardar esto en el json (?)
     #Guardar documento preprocesado en el json
+    data = {"corpus": filtered_docs,
+            "vector representation": vector_rep}
     with open("corpus.json", "w") as json_file:
-        json.dump(vector_rep, json_file)
+        json.dump(data, json_file)
+       
