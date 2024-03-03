@@ -1,31 +1,6 @@
-import gensim
-import spacy
 from sympy import sympify, to_dnf, Not, And, Or
 
-nlp = spacy.load("en_core_web_sm")
-
-def query_to_dnf(query):
-
-    processed_query = ""
-    
-    # Tokenizar la consulta
-    query_tokens = nlp(query)
-    
-    # Reemplazar los operadores lógicos por sus equivalentes en sympy
-    processed_query=query_tokens.text
-    processed_query = processed_query.replace("AND", "&").replace("OR", "|").replace("NOT", "~")
-    
-    # Convertir a expresión sympy y aplicar to_dnf
-    query_expr = sympify(processed_query, evaluate=False)
-    query_dnf = to_dnf(query_expr, simplify=True)
-
-    return query_dnf
-
-# consulta = "A AND (B OR NOT C)"
-# consulta_dnf = query_to_dnf(consulta)
-
-
-def convert_to_logic(query):
+def convert_to_logic(query,nlp):
     
     # Tokenizar la consulta
     doc = nlp(query)
@@ -54,22 +29,34 @@ def convert_to_logic(query):
 # consulta = "I have a cat and a dog"
 # expresion_logica = convert_to_logic(consulta)
 
+def query_to_dnf(query,nlp):
+
+    processed_query = ""
+    
+    # Tokenizar la consulta
+    query_tokens = nlp(query)
+    
+    # Reemplazar los operadores lógicos por sus equivalentes en sympy
+    processed_query=query_tokens.text
+    processed_query = processed_query.replace("AND", "&").replace("OR", "|").replace("NOT", "~")
+    
+    # Convertir a expresión sympy y aplicar to_dnf
+    query_expr = sympify(processed_query, evaluate=False)
+    query_dnf = to_dnf(query_expr, simplify=True)
+
+    return query_dnf
+
+# consulta = "A AND (B OR NOT C)"
+# consulta_dnf = query_to_dnf(consulta)
+
 
 #######REVISAR
 
-tokenized_docs = []     # cargar del json o del corpus procesado
-dictionary = gensim.corpora.Dictionary(tokenized_docs)
-vocabulary = list(dictionary.token2id.keys())
-corpus = [dictionary.doc2bow(doc) for doc in tokenized_docs]
+corpus=[["A","B","C"],["A","B"],["A","C"],["A","B","D"],["A","B","C","D"],["A","B" ]]
 
-def get_matching_docs(query_dnf):
-    global tokenized_docs, dictionary, corpus, vocabulary
+def get_matching_docs(query_dnf,corpus):
 
-    #matching_documents = []#Meter aqui los documentos que coinciden con el primer termino de la consulta,los que coinciden con el segundo y asi
     setDnf = set()
-
-    # for match in matching_documents:
-    #     setDnf.add(match)
 
     for term in query_dnf.args:
         
@@ -77,9 +64,9 @@ def get_matching_docs(query_dnf):
             terms=[]
             for subterm in term.args:
                 if isinstance(subterm, Not):
-                    terms.append(not_term_in_docs(subterm.args[0]))
+                    terms.append(not_term_in_docs(subterm.args[0],corpus))
                 else:
-                    terms.append(term_in_docs(subterm))
+                    terms.append(term_in_docs(subterm,corpus))
             
             setTemp = set()
             for i in terms:
@@ -94,17 +81,17 @@ def get_matching_docs(query_dnf):
             terms=[]
             for subterm in term.args:
                 if isinstance(subterm, Not):
-                    terms.append(not_term_in_docs(subterm.args[0]))##recordar devolver los documentos en sets
+                    terms.append(not_term_in_docs(subterm.args[0],corpus))
                 else:
-                    terms.append(term_in_docs(subterm))
+                    terms.append(term_in_docs(subterm,corpus))
 
             setTemp = set()
+            setTemp.add(terms[0])
             for i in terms:
-                setTemp = setTemp & i #cambiar para que no le haga & con un 0
+                setTemp = setTemp & i
 
             setDnf.add(setTemp)#annadir un set dentro del set
 
-            
             # term1 = {str(term1).lower()}
             # term2 = {str(term2).lower()}
 
@@ -119,16 +106,28 @@ def get_matching_docs(query_dnf):
     return setDnf
     
 
-def not_term_in_docs(term):
+def not_term_in_docs(term,corpus):
     sets=set()
-    sets.add("s1")
+    for doc in corpus:
+        if term in doc:
+            sets.add(doc)
     return sets
 
-def term_in_docs(term):
+    # sets=set()
+    # sets.add("s1")
+    # return sets
+
+def term_in_docs(term,corpus):
     sets=set()
-    sets.add("s2")
+    for doc in corpus:
+        if term not in doc:
+            sets.add(doc)
     return sets
+
+    # sets=set()
+    # sets.add("s2")
+    # return sets
 
 query = "A AND (B OR NOT C)"     # insertar consulta
 #query="A | B | C"
-get_matching_docs(query_to_dnf(query))
+get_matching_docs(query_to_dnf(query),corpus)
