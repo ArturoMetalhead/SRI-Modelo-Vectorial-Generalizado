@@ -57,46 +57,78 @@ def convert_to_logic(query):
 
 #######REVISAR
 
-# tokenized_docs = []     # cargar del json o del corpus procesado
-# dictionary = gensim.corpora.Dictionary(tokenized_docs)
-# vocabulary = list(dictionary.token2id.keys())
-# corpus = [dictionary.doc2bow(doc) for doc in tokenized_docs]
+tokenized_docs = []     # cargar del json o del corpus procesado
+dictionary = gensim.corpora.Dictionary(tokenized_docs)
+vocabulary = list(dictionary.token2id.keys())
+corpus = [dictionary.doc2bow(doc) for doc in tokenized_docs]
 
-# def get_matching_docs(query_dnf):
-#     global tokenized_docs, dictionary, corpus, vocabulary
+def get_matching_docs(query_dnf):
+    global tokenized_docs, dictionary, corpus, vocabulary
 
-#     matching_documents = []
-#     for term in query_dnf.args:
-#         if isinstance(term, Not):
-#             term = term.args[0]
-#             term = term.args[0] if isinstance(term, Not) else Not(term)
-#         term = term.args[0] if isinstance(term, Not) else term
+    #matching_documents = []#Meter aqui los documentos que coinciden con el primer termino de la consulta,los que coinciden con el segundo y asi
+    setDnf = set()
 
-#         if isinstance(term, Or):
-#             matching_documents.extend(get_matching_docs(term))
-#         elif isinstance(term, And):  # Agregar verificación para términos de tipo And
-#             term_docs = None
-#             for subterm in term.args:
-#                 subterm = subterm.args[0] if isinstance(subterm, Not) else subterm
-#                 subterm = str(subterm).lower()
-#                 if subterm in vocabulary:
-#                     subterm_id = dictionary.token2id[subterm]
-#                     subterm_docs = [doc for doc in corpus if subterm_id in dict(doc)]
-#                     if term_docs is None:
-#                         term_docs = set(subterm_docs)
-#                     else:
-#                         term_docs = term_docs.intersection(subterm_docs)
-#             if term_docs is not None:
-#                 matching_documents.extend(list(term_docs))
-#         else:
-#             term = term.args[0] if isinstance(term, Not) else term
-#             term = str(term).lower()  # Convertir el término en una cadena y aplicar lower()
-#             if term in vocabulary:
-#                 term_id = dictionary.token2id[term]
-#                 term_docs = [doc for doc in corpus if term_id in dict(doc)]
-#                 matching_documents.extend(term_docs)
+    # for match in matching_documents:
+    #     setDnf.add(match)
 
-#     return matching_documents
+    for term in query_dnf.args:
+        
+        if isinstance(term, Or):
+            terms=[]
+            for subterm in term.args:
+                if isinstance(subterm, Not):
+                    terms.append(not_term_in_docs(subterm.args[0]))
+                else:
+                    terms.append(term_in_docs(subterm))
+            
+            setTemp = set()
+            for i in terms:
+                setTemp = setTemp | i
 
-# query = "(A & B) | (A | ~C)"     # insertar consulta
-# get_matching_docs(query_to_dnf(query))
+            setDnf.add(setTemp)
+            # term1 = {str(term1).lower()}
+            # term2 = {str(term2).lower()}
+           
+        elif isinstance(term, And):
+            
+            terms=[]
+            for subterm in term.args:
+                if isinstance(subterm, Not):
+                    terms.append(not_term_in_docs(subterm.args[0]))##recordar devolver los documentos en sets
+                else:
+                    terms.append(term_in_docs(subterm))
+
+            setTemp = set()
+            for i in terms:
+                setTemp = setTemp & i #cambiar para que no le haga & con un 0
+
+            setDnf.add(setTemp)#annadir un set dentro del set
+
+            
+            # term1 = {str(term1).lower()}
+            # term2 = {str(term2).lower()}
+
+        elif isinstance(term, Not):
+            term=not_term_in_docs(term.args[0])
+            setDnf.add(term)
+
+        else:
+            term=term_in_docs(term)
+            setDnf.add(term)
+
+    return setDnf
+    
+
+def not_term_in_docs(term):
+    sets=set()
+    sets.add("s1")
+    return sets
+
+def term_in_docs(term):
+    sets=set()
+    sets.add("s2")
+    return sets
+
+query = "A AND (B OR NOT C)"     # insertar consulta
+#query="A | B | C"
+get_matching_docs(query_to_dnf(query))
