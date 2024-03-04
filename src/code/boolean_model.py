@@ -1,9 +1,10 @@
-import Preprocessing
-from Boolean_Model import *
+import preprocessing
+from boolean_model_functions import *
 import spacy
 
 
-def main():
+def start(corpus):
+
     #Implementar el preprocesamiento de los documentos
 
     #Leer de la terminal la consulta
@@ -16,9 +17,6 @@ def main():
     query = query_to_dnf(query, nlp)
 
     #Realizar la consulta
-    matching_documents = get_matching_docs(query)
+    matching_documents = get_matching_docs(query,corpus)
 
     print(matching_documents)
-
-
-   
