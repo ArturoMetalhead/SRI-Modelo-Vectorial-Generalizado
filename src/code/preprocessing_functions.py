@@ -119,5 +119,9 @@ def docs_vectorial_rep(vocabulary, filtered_tokens):
         vectorial_docs.append(doc_rep)
     return vectorial_docs
 
-
+def get_ck(vectorial_docs, term_index):
+    ck = 0
+    for doc in vectorial_docs:
+        ck = ck + doc[term_index]
+    return ck
 #endregion
