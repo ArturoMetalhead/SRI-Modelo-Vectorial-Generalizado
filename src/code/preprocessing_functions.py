@@ -106,4 +106,18 @@ def pos_tagger(tokenized_docs):
 
 #pos_tags = pos_tagger(tokenization(documents))
 
+#Representar los documentos en forma de vector binario en dependencia de los términos que aparecen
+def docs_vectorial_rep(vocabulary, filtered_tokens):
+    vectorial_docs = []
+    for doc in filtered_tokens:
+        doc_rep = []
+        for voc in vocabulary:
+            if voc in doc:
+                doc_rep.append(1)
+            else: 
+                doc_rep.append(0)
+        vectorial_docs.append(doc_rep)
+    return vectorial_docs
+
+
 #endregion
