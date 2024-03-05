@@ -2,6 +2,9 @@ import ir_datasets
 import nltk
 import spacy
 import gensim
+import pandas as pd
+from scipy.stats import chi2_contingency
+import numpy as np
 
 ##Cargando el corpus
 
@@ -82,13 +85,6 @@ def build_vocabulary(dictionary):
 # Modificado para usar tfidf por defecto
 def vector_representation(tokenized_docs, dictionary, use_bow=True):
     corpus = [dictionary.doc2bow(doc) for doc in tokenized_docs]
-
-    """if use_bow:
-        vector_repr = corpus
-    else:
-        tfidf = gensim.models.TfidfModel(corpus)
-        vector_repr = [tfidf[doc] for doc in corpus] """
-    
     ttfidf = gensim.models.TfidfModel(corpus)
     vector_repr = [ttfidf[doc] for doc in corpus]
 
@@ -119,9 +115,30 @@ def docs_vectorial_rep(vocabulary, filtered_tokens):
         vectorial_docs.append(doc_rep)
     return vectorial_docs
 
-def get_ck(vectorial_docs, term_index):
-    ck = 0
-    for doc in vectorial_docs:
-        ck = ck + doc[term_index]
-    return ck
+#Obtener la frecuencia de aparicion de un termino i en un documento k
+def get_c(doc, term):
+    c = 0
+    for token in doc:
+        if token == term:
+            c = c + 1
+    return c
+    
+
+def get_correlation_between_terms(vectorial_docs, term_i, term_j):
+    df = pd.DataFrame(vectorial_docs)
+    filtered_df = df[[term_i, term_j]]
+    contingency_table = pd.crosstab(filtered_df[term_i], filtered_df[term_j])
+    observed = contingency_table.values
+    chi2, _, _, expected = chi2_contingency(observed)    
+    phi = np.sqrt(chi2 / np.sum(observed))
+    return phi
+
+def get_correlation_matrix(vectorial_docs):
+    correlation_matrix = []
+    for i in range(len(vectorial_docs[0])):
+        doc_correlation = []
+        for j in range(len(vectorial_docs[0])):
+            doc_correlation.append(get_correlation_between_terms(vectorial_docs, i, j))
+        correlation_matrix.append(doc_correlation)
+    return correlation_matrix
 #endregion
