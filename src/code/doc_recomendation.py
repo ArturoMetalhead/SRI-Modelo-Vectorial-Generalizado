@@ -28,9 +28,6 @@ k = 1 / np.sum(np.abs(sim[sim_user_index])) if np.sum(np.abs(sim[sim_user_index]
 
 # Calcular la predicción para el usuario actual usando la fórmula de agregación
 
-#r_u_i = np.dot(sim[sim_user_index], evaluations[sim_user_index]) * k
-#r_u_i = np.sum(evaluations[sim_user_index] * sim[sim_user_index][:, np.newaxis], axis=0) * k
-
 sum_sim=[]
 for i in range(len(evaluations[1])):
     sum=0
