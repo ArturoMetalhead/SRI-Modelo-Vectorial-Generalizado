@@ -35,7 +35,7 @@ def preprocess(documents):
 
     #Representar Vectorialmente
     # TODO: Determinar si lo dejamos solo con Tfidf
-    vector_rep = vector_representation(filtered_docs, dictionary)
+    vector_rep = vector_representation(filtered_docs, vocabulary)
 
     #Etiquetar
     # TODO: Verificar para que es el tagger y determinar si se le pasa el primer tokenized_docs o filtered_docs

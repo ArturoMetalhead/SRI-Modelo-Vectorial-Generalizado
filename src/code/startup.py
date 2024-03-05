@@ -13,7 +13,7 @@ def start():
     vocabulary = data["vocabulary"]
     correlation_matrix = data["correlation_matrix"]
 
-    execute_model("I like dogs", filtered_docs, weight_doc_matrix, vocabulary, correlation_matrix, docs)
+    execute_model("I like cats", filtered_docs, weight_doc_matrix, vocabulary, correlation_matrix, docs)
 
 def execute_model(query, filtered_docs, weight_doc_matrix, vocabulary, correlation_matrix, docs):
     processed_query = preprocess_query(query)
@@ -26,7 +26,7 @@ def define_ranking(similarity, docs):
     ranking = []
     for i in range(0, len(similarity)):
         ranking.append((similarity[i], docs[i]))
-    ranking.sort(reverse=True)
-    return ranking[:2]
+    #ranking.sort(reverse=True)
+    return ranking
 
 start()

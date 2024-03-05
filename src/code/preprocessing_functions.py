@@ -5,6 +5,7 @@ import gensim
 import pandas as pd
 from scipy.stats import chi2_contingency
 import numpy as np
+from math import log
 
 ##Cargando el corpus
 
@@ -83,10 +84,25 @@ def build_vocabulary(dictionary):
 ##Representacion Vectorial  (Me parece que esta es la parte que uno debe implementar)
 
 # Modificado para usar tfidf por defecto
-def vector_representation(tokenized_docs, dictionary, use_bow=True):
-    corpus = [dictionary.doc2bow(doc) for doc in tokenized_docs]
-    ttfidf = gensim.models.TfidfModel(corpus)
-    vector_repr = [ttfidf[doc] for doc in corpus]
+def vector_representation(filtered_docs, vocabulary, use_bow=True):
+    # corpus = [dictionary.doc2bow(doc) for doc in tokenized_docs]
+    # ttfidf = gensim.models.TfidfModel(corpus)
+    # vector_repr = [ttfidf[doc] for doc in corpus]
+    vector_repr=[]
+    term_frequency = []
+    
+
+    for doc in filtered_docs:
+        doc_i=[]
+        for voc in vocabulary:
+            term_frequency.append(doc.count(voc))
+
+        for word in vocabulary:
+            f=doc.count(word)
+            tf = f / max(term_frequency)
+            idf=log(len(filtered_docs)/(1+sum([1 for doc in filtered_docs if word in doc])))
+            doc_i.append(tf*idf)
+        vector_repr.append(doc_i)
 
     return vector_repr
 
