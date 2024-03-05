@@ -41,9 +41,15 @@ def preprocess(documents):
     # TODO: Verificar para que es el tagger y determinar si se le pasa el primer tokenized_docs o filtered_docs
     tagged_docs = pos_tagger(tokenized_docs)
 
+    vectorial_docs = docs_vectorial_rep(vocabulary, filtered_docs)
+
+    correlation_matrix = get_correlation_matrix(vectorial_docs)
+
     #Guardar documento preprocesado en el json
     data = {"corpus": filtered_docs,
-            "vector representation": vector_rep}
+            "vector representation": vector_rep,
+            "vocabulary" : vocabulary,
+            "correlation_matrix": correlation_matrix}
     with open("corpus.json", "w") as json_file:
         json.dump(data, json_file)
        
