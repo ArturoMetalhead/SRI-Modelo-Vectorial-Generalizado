@@ -127,9 +127,9 @@ def get_c(doc, term):
 def get_correlation_between_terms(vectorial_docs, term_i, term_j):
     df = pd.DataFrame(vectorial_docs)
     filtered_df = df[[term_i, term_j]]
-    contingency_table = pd.crosstab(filtered_df[term_i], filtered_df[term_j])
+    contingency_table = pd.crosstab(filtered_df[term_i].values.tolist(), filtered_df[term_j].values.tolist())
     observed = contingency_table.values
-    chi2, _, _, expected = chi2_contingency(observed)    
+    chi2, _, _, expected = chi2_contingency(observed)
     phi = np.sqrt(chi2 / np.sum(observed))
     return phi
 
@@ -138,7 +138,13 @@ def get_correlation_matrix(vectorial_docs):
     for i in range(len(vectorial_docs[0])):
         doc_correlation = []
         for j in range(len(vectorial_docs[0])):
-            doc_correlation.append(get_correlation_between_terms(vectorial_docs, i, j))
+            if i<=j:
+                if i == j:
+                    doc_correlation.append(1)
+                else:
+                    doc_correlation.append(get_correlation_between_terms(vectorial_docs, i, j))
+            else:
+                doc_correlation.append(correlation_matrix[j][i])
         correlation_matrix.append(doc_correlation)
     return correlation_matrix
 #endregion
