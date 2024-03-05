@@ -46,7 +46,8 @@ def preprocess(documents):
     correlation_matrix = get_correlation_matrix(vectorial_docs)
 
     #Guardar documento preprocesado en el json
-    data = {"corpus": filtered_docs,
+    data = {"original_corpus": documents,
+            "corpus": filtered_docs,
             "vector representation": vector_rep,
             "vocabulary" : vocabulary,
             "correlation_matrix": correlation_matrix}

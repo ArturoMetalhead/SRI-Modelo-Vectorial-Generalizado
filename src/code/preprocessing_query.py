@@ -7,6 +7,6 @@ def preprocess_query(query):
     reduced_query = morphological_reduction(no_stop_words_query)
     filtered_query, dictionary = filter_tokens_by_occurrence(reduced_query)
     vocabulary = build_vocabulary(dictionary)
-    return filtered_query
+    return vocabulary
 
     
