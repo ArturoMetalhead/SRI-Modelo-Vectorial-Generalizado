@@ -1,4 +1,4 @@
-from preprocessing_functions import *
+from src.code.preprocessing_functions import *
 
 def preprocess_query(query):
     """

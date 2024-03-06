@@ -1,6 +1,6 @@
 import numpy as np
 from math import log
-from preprocessing_query import *
+from src.code.preprocessing_query import *
 from sklearn.metrics.pairwise import cosine_similarity
 
 def calculate_similarity(doc_index,weight_doc_matrix, correlation_matrix, weight_query_vector,n):

@@ -1,4 +1,4 @@
-from boolean_model_functions import *
+from src.code.boolean_model_functions import *
 import spacy
 
 
