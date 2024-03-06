@@ -1,7 +1,8 @@
-from preprocessing import *
 from preprocessing_query import *
 from generalized_vector_model import *
 import json
+
+print("Bienvenido al motor de búsqueda de documentos")
 
 def start():
     with open("corpus.json", "r") as json_file:
@@ -13,7 +14,15 @@ def start():
     vocabulary = data["vocabulary"]
     correlation_matrix = data["correlation_matrix"]
 
-    execute_model("table are humans ability", filtered_docs, weight_doc_matrix, vocabulary, correlation_matrix, docs)
+    query = ""
+    while(True):
+        print("Ingrese la consulta deseada en inglés")
+        query = input("Buscar:")
+        if query == "b":
+            break
+
+        else:
+            print(execute_model(query, filtered_docs, weight_doc_matrix, vocabulary, correlation_matrix, docs))
 
 def execute_model(query, filtered_docs, weight_doc_matrix, vocabulary, correlation_matrix, docs):
     processed_query = preprocess_query(query)
@@ -29,8 +38,9 @@ def execute_model(query, filtered_docs, weight_doc_matrix, vocabulary, correlati
 def define_ranking(similarity, docs):
     ranking = []
     for i in range(0, len(similarity)):
-        ranking.append((similarity[i], docs[i]))
-    #ranking.sort(reverse=True)
+        if similarity[i] >= 1:
+            ranking.append((similarity[i],i, docs[i]))
+    ranking.sort(reverse=True)
     return ranking
 
-start()
+start() 
