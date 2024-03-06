@@ -1,1 +1,10 @@
- 
+ El proyecto se ha desarrollado con el lenguaje de programción Python. Para la implementación de diferentes funcionalidades necesarias para el correcto funcionamiento del algoritmo se han utilizado las siguientes bibliotecas o módulos de Python:
+ -NLTK para el preprocesamiento de los documentos.
+ -spacy para el preprocesamiento de los documentos.
+ -Numpy para el trabajo con matrices y vectores.
+ -pandas para el manejo de los datos.
+ -json para el trabajo con archivos json.
+ -sympy para el trabajo con expresiones lógicas.
+ -sklearn para el trabajo con la recomendación de documentos.
+ -gensim para el trabajo con Diccionarios.
+ -math para el trabajo con determinadas funciones matemáticas.
