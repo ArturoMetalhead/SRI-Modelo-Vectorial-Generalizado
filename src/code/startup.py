@@ -1,6 +1,7 @@
 from preprocessing_query import *
 from generalized_vector_model import *
 import json
+from boolean_model import *
 
 print("Bienvenido al motor de búsqueda de documentos")
 
@@ -23,6 +24,7 @@ def start():
 
         else:
             print(execute_model(query, filtered_docs, weight_doc_matrix, vocabulary, correlation_matrix, docs))
+            print(model_bool(filtered_docs, query))
 
 def execute_model(query, filtered_docs, weight_doc_matrix, vocabulary, correlation_matrix, docs):
     processed_query = preprocess_query(query)

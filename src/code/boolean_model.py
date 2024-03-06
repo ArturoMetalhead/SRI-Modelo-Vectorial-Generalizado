@@ -1,14 +1,8 @@
-import preprocessing
 from boolean_model_functions import *
 import spacy
 
 
-def start(corpus):
-
-    #Implementar el preprocesamiento de los documentos
-
-    #Leer de la terminal la consulta
-    query = input("Ingrese la consulta: ")
+def model_bool(corpus, query):
 
     #Preprocesar la consulta
     nlp = spacy.load("en_core_web_sm")
@@ -19,4 +13,12 @@ def start(corpus):
     #Realizar la consulta
     matching_documents = get_matching_docs(query,corpus)
 
-    print(matching_documents)
+    results=[]
+
+    # Convertir matching_documents a lista
+    matching_documents = list(matching_documents)
+
+    for i in range(0, len(matching_documents)):
+        results.append((1,matching_documents[i]))
+
+    return results
