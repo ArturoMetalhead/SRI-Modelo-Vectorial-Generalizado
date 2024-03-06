@@ -4,21 +4,34 @@ def convert_to_logic(query,nlp):
     
     # Tokenizar la consulta
     doc = nlp(query)
+    new_doc = []
+
+    for token in doc:
+        if token.is_alpha:
+            new_doc.append(token.text)
+
+    logical_query=[]
+
+    for i in range(0,len(new_doc)):
+        logical_query.append(new_doc[i])
+        if i<len(new_doc)-1:
+            logical_query.append('or')
     
+    doc=logical_query
     # Lista para almacenar los términos clave
     terms = []
     
     # Recorrer los tokens de la consulta
     for token in doc:
-        # Verificar si el token es un sustantivo o un adjetivo
-        if token.pos_ in ['NOUN', 'ADJ']:
-            terms.append(token.text)
-        elif token.text == 'and':
+        # Verificar si el token es un sustantivo o un adjetivo    
+        if token == 'and':
             terms.append('AND')
-        elif token.text == 'or':
+        elif token == 'or':
             terms.append('OR')
-        elif token.text == 'not':
+        elif token == 'not':
             terms.append('NOT')
+        else:
+            terms.append(token)
 
     # Construir la expresión lógica
     logic_expr = ' '.join(terms)
@@ -38,7 +51,7 @@ def query_to_dnf(query,nlp):
     
     # Convertir a expresión sympy y aplicar to_dnf
     query_expr = sympify(processed_query, evaluate=False)
-    query_dnf = to_dnf(query_expr, simplify=True)
+    query_dnf = to_dnf(query_expr, simplify=True,force=True)
 
     return query_dnf
 
