@@ -32,13 +32,13 @@ Un factor de correlación entre dos términos i y j es una medida que indica la 
 
 Como se ha mencionado, el Modelo Vectorial Generalizado (MVG) se basa en el cálculo de la similitud del coseno, tomando en cuenta el factor de correlación entre un par de términos. La fórmula en la que se ha basado la implementación de la solución es la siguiente:
 
-sim(d_{k}, q) = \frac{\sum_{j=1}^{n}\sum_{i=1}^{n}w_{i,k} \cdot w_{j,q} \cdot t_{i} \cdot t_{j}}{\sqrt{\sum_{i=1}^{n}w_{i,k}^{2}} \cdot \sqrt{\sum_{i=1}^{n}w_{i,q}^{2}}}
+$sim(d_{k}, q) = \frac{\sum_{j=1}^{n}\sum_{i=1}^{n}w_{i,k} \cdot w_{j,q} \cdot t_{i} \cdot t_{j}}{\sqrt{\sum_{i=1}^{n}w_{i,k}^{2}} \cdot \sqrt{\sum_{i=1}^{n}w_{i,q}^{2}}}$
 
 Donde:
 
-- w_{i,k} representa el peso del término i en el documento k.
-- w_{j,q} representa el peso del término j en la consulta q.
-- t_{i} \cdot t_{j} representa el factor de correlación entre el término i y el término j.
+- $w_{i,k}$ representa el peso del término i en el documento k.
+- $w_{j,q}$ representa el peso del término j en la consulta q.
+- $t_{i} \cdot t_{j}$ representa el factor de correlación entre el término i y el término j.
 
 ## Insuficiencias de la solución  y mejoras propuestas
 
