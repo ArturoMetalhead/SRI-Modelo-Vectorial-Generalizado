@@ -13,7 +13,7 @@ def start():
     vocabulary = data["vocabulary"]
     correlation_matrix = data["correlation_matrix"]
 
-    execute_model("I like cats", filtered_docs, weight_doc_matrix, vocabulary, correlation_matrix, docs)
+    execute_model("dogs are humans ability", filtered_docs, weight_doc_matrix, vocabulary, correlation_matrix, docs)
 
 def execute_model(query, filtered_docs, weight_doc_matrix, vocabulary, correlation_matrix, docs):
     processed_query = preprocess_query(query)
