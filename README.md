@@ -12,9 +12,11 @@ El Modelo Vectorial Generalizado (GVM) es una extensión del Modelo Vectorial cl
 
 ## Consideraciones tomadas a la hora de desarrollar la solución
 
-La solución ha sido implementada pensando en un corpus en el idioma inglés, asumiendo también que la consulta ingresada por el usuario se encontrará en ese idioma. El procesamiento del corpus es muy costoso temporalmente, por lo que se realiza un preprocesamiento previo del mismo, facilitando así el trabajo a la hora de procesar las consultas del usuario, dicho corpus así como otros datos de interés del algoritmo se guardan en un fichero .json.
+La solución ha sido implementada pensando en un corpus en el idioma inglés, asumiendo también que la consulta ingresada por el usuario se encontrará en ese idioma. El procesamiento del corpus es muy costoso temporalmente, por lo que se realiza un preprocesamiento previo del mismo, facilitando así el trabajo a la hora de procesar las consultas del usuario, dicho corpus así como otros datos de interés del algoritmo se guardan en un fichero .json. Por motivos de capacidad de cómputo de el equipo donde se ha desarrollado el proyecto, fue necesario reducir el corpus seleccionado del sitio recomendado.  
 
 ## Explicación de como ejecutar el proyecto.Definición de la consulta
+
+Para ejecutar el proyecto se debe ejecutar el archivo startup.py que llamará a la función start. La función start da inicio a la interacción con el usuario, permitiendo que el mismo ingrese su consulta. Luego se procede a realizar todos los pasos pertinentes para el procesamiento de la consulta, cálculo de similitud con los documentos y, finalmente, dar respuesta al usuario con el docuemnto (o los documentos) que más se ajustan a su búsqueda.  
 
 ## Explicación de la solución desarrollada
 
@@ -45,4 +47,5 @@ Donde:
 - En la implemenatación del Método Booleano, se presentan dificultades ante consultas que se traduzcan de la forma 'A & B' a la Forma Normal Disyuntiva. Esto se debe a que la función implementada en Python que convierte una expresión lógica a Forma Normal Disyuntiva, no tiene en cuenta la posibilidad de aparición de este tipo de consultas. Como mejora se propone la implementación manual de una función que transforme correctamente todo tipo de expresiones lógicas a Forma Normal Disyuntiva.
 - En el trabajo con la biblioteca 'spacy' a veces se encuentran dificultades en el etiquetado de palabras y en el proceso de Reducción Morfológica.  
 - En general, la implementación del Modelo Vectorial Generalizado resulta costosa computacionalmente. Se logró refactorizar el código de determinadas funciones, pero se recomienda realizar un análisis en otras funciones matemáticas que pudieran aligerar el costo temporal del algoritmo.
+- Por problemas de capacidad de cómputo del equipo donde se ha desarrollado el proyecto, fue necesario reducir el tamaño del corpus a procesar.  
   
