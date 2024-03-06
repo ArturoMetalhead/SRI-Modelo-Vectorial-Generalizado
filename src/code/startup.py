@@ -13,13 +13,17 @@ def start():
     vocabulary = data["vocabulary"]
     correlation_matrix = data["correlation_matrix"]
 
-    execute_model("dogs are humans ability", filtered_docs, weight_doc_matrix, vocabulary, correlation_matrix, docs)
+    execute_model("table are humans ability", filtered_docs, weight_doc_matrix, vocabulary, correlation_matrix, docs)
 
 def execute_model(query, filtered_docs, weight_doc_matrix, vocabulary, correlation_matrix, docs):
     processed_query = preprocess_query(query)
     similarity = []
+
+    n = len(correlation_matrix[0]) #Cantidad de documentos
+    weight_query_vector = get_weight_query_vector(processed_query, vocabulary,n,filtered_docs)
+
     for i in range(0, len(filtered_docs)):
-        similarity.append(calculate_similarity(i, processed_query, weight_doc_matrix, correlation_matrix, vocabulary))
+        similarity.append(calculate_similarity(i, weight_doc_matrix, correlation_matrix,weight_query_vector,n))
     return define_ranking(similarity, docs)
     
 def define_ranking(similarity, docs):

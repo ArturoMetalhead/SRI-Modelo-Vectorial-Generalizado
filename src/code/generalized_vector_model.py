@@ -23,14 +23,11 @@ correlation_matrix = data["correlation_matrix"]'''
             minterms.append(0)
     return minterms'''
 
-def calculate_similarity(doc_index, processed_query, weight_doc_matrix, correlation_matrix, vocabulary):
-    n = len(correlation_matrix[0])
-    # numerator = 0
-    # sum_den_i_k = 0
-    # sum_den_i_q = 0
-    weight_query_vector = get_weight_query_vector(processed_query, vocabulary)
+def calculate_similarity(doc_index,weight_doc_matrix, correlation_matrix, weight_query_vector,n):
 
     t_i_j=0
+
+    # Calculando el valor de la correlación
     for i in range(0,n):
         for j in range(0,n):
             t_i_j += correlation_matrix[i][j]
@@ -40,40 +37,29 @@ def calculate_similarity(doc_index, processed_query, weight_doc_matrix, correlat
 
     return cosine_similarity([weight_doc_matrix[doc_index]], [weight_query_vector])[0][0]*t_i_j
 
-    # for j in range(0,n):
-    #     for i in range(0,n):
-    #         w_ik = weight_doc_matrix[doc_index][i]
-    #         w_jq = weight_query_vector[j]
-    #         #w_iq = weight_query_vector[i]
-    #         #t_i_j = correlation_matrix[i][j]
-    #         #numerator = numerator + (w_ik * w_jk * t_i_j)
-
-    #         numerator = numerator + (w_ik * w_jq)
-            
-    # for i in range(0,n):
-    #     wd_ik = weight_doc_matrix[doc_index][i]
-    #     wd_iq = weight_query_vector[i]
-    #     sum_den_i_k = sum_den_i_k + (wd_ik ** 2)
-    #     sum_den_i_q = sum_den_i_q + (wd_iq ** 2)
-
-    # denominator = np.sqrt(sum_den_i_k) * np.sqrt(sum_den_i_q)
-
-    # return numerator / denominator
-
-def weight_for_query(term, processed_query):
-
+def weight_for_query(term, processed_query,n,filtered_docs):
 
     #Calcular TF
+
     term_count = processed_query.count(term)
-    total_terms = len(processed_query)
     tf = term_count if term_count > 0 else 0
-    exp = 1
+
     #Calcular IDF
-    idf = log(7/1+1)
+
+    d=0
+    for doc in filtered_docs:
+        if term in doc:
+            d+=1
+
+    if d == 0:
+        d=1
+
+    idf = log(n/d)
+
     return tf * idf
 
-def get_weight_query_vector(processed_query, vocabulary):
+def get_weight_query_vector(processed_query, vocabulary, n,filtered_docs):
     weight_query_vector = []
     for term in vocabulary:
-        weight_query_vector.append(weight_for_query(term, processed_query))
+        weight_query_vector.append(weight_for_query(term, processed_query,n,filtered_docs))
     return weight_query_vector
